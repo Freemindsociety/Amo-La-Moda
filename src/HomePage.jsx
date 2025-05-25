@@ -66,13 +66,15 @@ const DropCountdown = () => {
   }, [])
 
   return (
-    <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 text-black bg-white/80 backdrop-blur-sm px-4 sm:px-6 py-4 rounded-none border border-black/10 w-full max-w-sm sm:max-w-none">
-      <span className="text-xs uppercase tracking-[0.3em] font-light text-center sm:text-left">NEXT DROP</span>
-      <div className="flex gap-3 sm:gap-6">
+    <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-8 text-white bg-black/50 backdrop-blur-md px-6 sm:px-8 py-6 rounded-xl border border-white/20 shadow-2xl w-full max-w-sm sm:max-w-none">
+      <span className="text-xs uppercase tracking-[0.4em] font-light text-center sm:text-left">NEXT DROP</span>
+      <div className="flex gap-4 sm:gap-8">
         {Object.entries(timeLeft).map(([unit, value]) => (
           <div key={unit} className="text-center">
-            <div className="text-lg sm:text-2xl font-light tabular-nums">{value.toString().padStart(2, "0")}</div>
-            <div className="text-xs uppercase tracking-[0.2em] font-light opacity-60">{unit}</div>
+            <div className="text-xl sm:text-3xl md:text-4xl font-light tabular-nums">
+              {value.toString().padStart(2, "0")}
+            </div>
+            <div className="text-xs uppercase tracking-[0.3em] font-light opacity-80">{unit}</div>
           </div>
         ))}
       </div>
@@ -268,7 +270,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-white text-black font-mono overflow-x-hidden">
+    <div className="min-h-screen bg-white text-black font-mono overflow-x-hidden antialiased">
       {/* Elevated Header */}
       <motion.header
         className="fixed top-0 left-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-black/5"
@@ -380,71 +382,97 @@ export default function HomePage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+              className="fixed inset-0 bg-black/20 backdrop-blur-md z-40"
               onClick={() => setMenuOpen(false)}
             />
 
             <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 h-full w-72 bg-white shadow-2xl z-50 flex flex-col"
+              className="fixed inset-0 bg-white/95 backdrop-blur-xl z-50 flex flex-col"
             >
+              {/* Optional mini video background */}
+              <div className="absolute inset-0 opacity-10">
+                <video className="w-full h-full object-cover" src="/media/hero.mp4" muted autoPlay loop playsInline />
+              </div>
+
               {/* Menu Header */}
-              <div className="flex justify-between items-center p-6 border-b border-black/5">
-                <img src="/logo.svg" alt="Amo La Moda Logo" className="h-6 w-auto" />
+              <div className="relative z-10 flex justify-between items-center p-8 border-b border-black/10">
+                <img src="/logo.svg" alt="Amo La Moda Logo" className="h-8 w-auto" />
                 <button
                   onClick={() => setMenuOpen(false)}
-                  className="text-xs font-light tracking-[0.3em] uppercase hover:scale-110 transition-transform"
+                  className="text-sm font-light tracking-[0.4em] uppercase hover:scale-110 transition-transform"
                 >
                   CLOSE
                 </button>
               </div>
 
-              {/* Menu Links */}
-              <nav className="flex-1 p-6">
-                <ul className="space-y-4">
+              {/* Menu Content */}
+              <div className="relative z-10 flex-1 flex flex-col justify-center px-8">
+                <nav className="space-y-8">
                   {["MEN", "WOMEN", "PAW PRINT", "ABOUT", "CONTACT"].map((link, index) => (
-                    <motion.li
+                    <motion.div
                       key={link}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.1 }}
+                      initial={{ opacity: 0, y: 30 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1 + 0.2 }}
+                      className="text-center"
                     >
                       <a
                         href="#"
-                        className="block text-sm font-light tracking-[0.3em] uppercase py-3 border-b border-transparent hover:border-black/20 transition-all"
+                        className="block text-4xl md:text-5xl font-light tracking-[0.1em] uppercase py-4 hover:text-black/60 transition-all duration-500 antialiased"
+                        style={{ fontFamily: "Playfair Display, serif" }}
                         onClick={() => setMenuOpen(false)}
                       >
                         {link}
                       </a>
-                    </motion.li>
+                    </motion.div>
                   ))}
-                </ul>
+                </nav>
 
-                {/* Mobile Secondary Actions */}
-                <div className="mt-8 pt-6 border-t border-black/5">
-                  <div className="grid grid-cols-2 gap-4">
-                    <button className="flex flex-col items-center gap-2 p-3 hover:bg-black/5 rounded-lg transition-colors">
-                      <HeartIcon />
-                      <span className="text-xs font-light tracking-wide">Wishlist</span>
+                {/* Secondary Actions */}
+                <motion.div
+                  className="mt-16 pt-8 border-t border-black/10"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8 }}
+                >
+                  <div className="flex justify-center gap-12">
+                    <button className="flex flex-col items-center gap-3 p-4 hover:bg-black/5 rounded-xl transition-colors">
+                      <HeartIcon className="w-6 h-6" />
+                      <span className="text-sm font-light tracking-[0.2em] uppercase">Wishlist</span>
                     </button>
-                    <button className="flex flex-col items-center gap-2 p-3 hover:bg-black/5 rounded-lg transition-colors">
-                      <UserIcon />
-                      <span className="text-xs font-light tracking-wide">Account</span>
+                    <button className="flex flex-col items-center gap-3 p-4 hover:bg-black/5 rounded-xl transition-colors">
+                      <UserIcon className="w-6 h-6" />
+                      <span className="text-sm font-light tracking-[0.2em] uppercase">Account</span>
                     </button>
                   </div>
-                </div>
-              </nav>
+                </motion.div>
+
+                {/* CTA */}
+                <motion.div
+                  className="mt-12 text-center"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1 }}
+                >
+                  <Button>SHOP DROP 01</Button>
+                </motion.div>
+              </div>
 
               {/* Menu Footer */}
-              <div className="p-6 border-t border-black/5">
-                <p className="text-xs font-light opacity-60 mb-4 leading-relaxed tracking-wide">
+              <motion.div
+                className="relative z-10 p-8 border-t border-black/10 text-center"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.2 }}
+              >
+                <p className="text-xs font-light opacity-60 leading-relaxed tracking-wide">
                   Made with love. Rooted in Pine Hills. Worn worldwide.
                 </p>
-                <Button>SHOP DROP 01</Button>
-              </div>
+              </motion.div>
             </motion.div>
           </>
         )}
@@ -461,12 +489,12 @@ export default function HomePage() {
           loop
           playsInline
         />
-        <div className="absolute inset-0 bg-black/60"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/50"></div>
 
         <div className="absolute inset-0 flex flex-col justify-center items-center px-6 md:px-12">
           <div className="max-w-4xl text-center">
             <motion.div
-              className="mb-8 flex justify-center"
+              className="mb-12 flex justify-center"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.5 }}
@@ -475,7 +503,7 @@ export default function HomePage() {
             </motion.div>
 
             <motion.h1
-              className="text-3xl md:text-5xl lg:text-6xl font-light mb-4 tracking-tight text-white"
+              className="text-4xl md:text-6xl lg:text-7xl font-light mb-6 tracking-tight text-white drop-shadow-lg subpixel-antialiased"
               initial={{ opacity: 0, y: 100 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -500,7 +528,7 @@ export default function HomePage() {
             </motion.h1>
 
             <motion.p
-              className="max-w-xl mx-auto text-base md:text-lg lg:text-xl font-light leading-relaxed text-white"
+              className="max-w-xl mx-auto text-lg md:text-xl lg:text-2xl font-light leading-relaxed md:leading-loose text-white drop-shadow-md mb-12"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.8 }}
@@ -511,13 +539,17 @@ export default function HomePage() {
             </motion.p>
 
             <motion.div
-              className="flex gap-6 justify-center"
+              className="flex flex-col sm:flex-row gap-6 justify-center items-center"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.2 }}
             >
-              <Button>SHOP DROP 01</Button>
-              <Button variant="secondary">VIEW LOOKBOOK</Button>
+              <button className="font-semibold px-8 py-4 rounded-full bg-gradient-to-r from-zinc-900 to-neutral-800 text-white hover:from-black hover:to-zinc-900 transition-all duration-300 text-sm tracking-wide hover:scale-105 hover:shadow-2xl ring-offset-2 focus:ring-2 focus:ring-white/50 active:scale-95">
+                SHOP DROP 01
+              </button>
+              <button className="font-semibold px-8 py-4 rounded-full bg-white/10 backdrop-blur-sm text-white border border-white/30 hover:bg-white/20 transition-all duration-300 text-sm tracking-wide hover:scale-105 hover:shadow-xl ring-offset-2 focus:ring-2 focus:ring-white/50 active:scale-95">
+                VIEW LOOKBOOK
+              </button>
             </motion.div>
           </div>
         </div>
