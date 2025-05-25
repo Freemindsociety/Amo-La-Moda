@@ -249,11 +249,22 @@ export default function HomePage() {
   const [hoveredProduct, setHoveredProduct] = useState(null)
   const [rotatedProducts, setRotatedProducts] = useState(new Set())
   const [cartCount, setCartCount] = useState(3)
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.play().catch(() => {})
     }
+  }, [])
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 50
+      setScrolled(isScrolled)
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   const handleRotateClick = (index, e) => {
@@ -273,15 +284,17 @@ export default function HomePage() {
     <div className="antialiased min-h-screen bg-white text-black font-mono overflow-x-hidden">
       {/* Elevated Header */}
       <motion.header
-        className="fixed top-0 left-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-black/5"
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
+          scrolled ? "bg-white/95 backdrop-blur-sm border-b border-black/5 shadow-sm" : "bg-transparent"
+        }`}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
       >
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-4 flex justify-between items-center">
           {/* Logo */}
-          <motion.div className="flex items-center" whileHover={{ scale: 1.02 }}>
-            <img src="/logo.svg" alt="Amo La Moda Logo" className="h-10 w-auto" />
+          <motion.div className="flex items-center ml-4 mt-2" whileHover={{ scale: 1.02 }}>
+            <img src="/logo.svg" alt="Amo La Moda Logo" className="h-12 sm:h-14 w-auto" />
           </motion.div>
 
           {/* Desktop Navigation */}
@@ -290,12 +303,14 @@ export default function HomePage() {
               <motion.a
                 key={link}
                 href="#"
-                className="relative group py-3 px-2 hover:text-black/60 transition-colors duration-300"
+                className={`relative group py-3 px-2 transition-colors duration-300 ${
+                  scrolled ? "hover:text-black/60" : "text-white hover:text-white/80"
+                }`}
                 whileHover={{ y: -1 }}
               >
                 <span className="relative z-10">{link}</span>
                 <motion.div
-                  className="absolute bottom-2 left-0 w-full h-px bg-black origin-left"
+                  className={`absolute bottom-2 left-0 w-full h-px origin-left ${scrolled ? "bg-black" : "bg-white"}`}
                   initial={{ scaleX: 0 }}
                   whileHover={{ scaleX: 1 }}
                   transition={{ duration: 0.3 }}
@@ -308,17 +323,31 @@ export default function HomePage() {
           <div className="hidden lg:flex items-center gap-4">
             <button
               onClick={() => setSearchOpen(!searchOpen)}
-              className="p-2 hover:bg-black/5 rounded-full transition-colors"
+              className={`p-2 rounded-full transition-colors ${
+                scrolled ? "hover:bg-black/5 text-black" : "hover:bg-white/20 text-white"
+              }`}
             >
               <SearchIcon />
             </button>
-            <button className="p-2 hover:bg-black/5 rounded-full transition-colors">
+            <button
+              className={`p-2 rounded-full transition-colors ${
+                scrolled ? "hover:bg-black/5 text-black" : "hover:bg-white/20 text-white"
+              }`}
+            >
               <HeartIcon />
             </button>
-            <button className="p-2 hover:bg-black/5 rounded-full transition-colors">
+            <button
+              className={`p-2 rounded-full transition-colors ${
+                scrolled ? "hover:bg-black/5 text-black" : "hover:bg-white/20 text-white"
+              }`}
+            >
               <UserIcon />
             </button>
-            <button className="p-2 hover:bg-black/5 rounded-full transition-colors relative">
+            <button
+              className={`p-2 rounded-full transition-colors relative ${
+                scrolled ? "hover:bg-black/5 text-black" : "hover:bg-white/20 text-white"
+              }`}
+            >
               <ShoppingBagIcon />
               {cartCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-light">
@@ -332,11 +361,17 @@ export default function HomePage() {
           <div className="lg:hidden flex items-center gap-3">
             <button
               onClick={() => setMobileSearchOpen(true)}
-              className="p-2 hover:bg-black/5 rounded-full transition-colors"
+              className={`p-2 rounded-full transition-colors ${
+                scrolled ? "hover:bg-black/5 text-black" : "hover:bg-white/20 text-white"
+              }`}
             >
               <SearchIcon />
             </button>
-            <button className="p-2 hover:bg-black/5 rounded-full transition-colors relative">
+            <button
+              className={`p-2 rounded-full transition-colors relative ${
+                scrolled ? "hover:bg-black/5 text-black" : "hover:bg-white/20 text-white"
+              }`}
+            >
               <ShoppingBagIcon />
               {cartCount > 0 && (
                 <span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-light">
@@ -349,17 +384,17 @@ export default function HomePage() {
               className="flex flex-col justify-center items-center w-6 h-6 hover:scale-110 transition-transform ml-1"
             >
               <motion.span
-                className="block w-5 h-px bg-black mb-1"
+                className={`block w-5 h-px mb-1 ${scrolled ? "bg-black" : "bg-white"}`}
                 animate={{ rotate: menuOpen ? 45 : 0, y: menuOpen ? 4 : 0 }}
                 transition={{ duration: 0.3 }}
               />
               <motion.span
-                className="block w-5 h-px bg-black mb-1"
+                className={`block w-5 h-px mb-1 ${scrolled ? "bg-black" : "bg-white"}`}
                 animate={{ opacity: menuOpen ? 0 : 1 }}
                 transition={{ duration: 0.3 }}
               />
               <motion.span
-                className="block w-5 h-px bg-black"
+                className={`block w-5 h-px ${scrolled ? "bg-black" : "bg-white"}`}
                 animate={{ rotate: menuOpen ? -45 : 0, y: menuOpen ? -4 : 0 }}
                 transition={{ duration: 0.3 }}
               />
@@ -400,12 +435,12 @@ export default function HomePage() {
 
               {/* Menu Header */}
               <div className="relative z-10 flex justify-between items-center p-8 border-b border-black/10">
-                <img src="/logo.svg" alt="Amo La Moda Logo" className="h-8 w-auto" />
+                <img src="/logo.svg" alt="Amo La Moda Logo" className="h-12 sm:h-14 w-auto" />
                 <button
                   onClick={() => setMenuOpen(false)}
-                  className="text-sm font-light tracking-[0.4em] uppercase hover:scale-110 transition-transform"
+                  className="text-2xl font-light hover:scale-110 transition-transform"
                 >
-                  CLOSE
+                  ×
                 </button>
               </div>
 
@@ -489,67 +524,81 @@ export default function HomePage() {
           loop
           playsInline
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/50"></div>
+        {/* Enhanced gradient overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20 z-10"></div>
 
-        <div className="absolute inset-0 flex flex-col justify-center items-center px-6 md:px-12">
+        <div className="absolute inset-0 flex flex-col justify-center items-center px-6 md:px-12 z-20">
           <div className="max-w-4xl text-center">
+            {/* Unified content container with subtle backdrop */}
             <motion.div
-              className="mb-12 flex justify-center"
+              className="bg-black/20 backdrop-blur-sm rounded-2xl py-6 md:py-10 px-8 md:px-12 border border-white/10 shadow-2xl"
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.5 }}
+              transition={{ duration: 1, delay: 0.3 }}
             >
-              <DropCountdown />
-            </motion.div>
-
-            <motion.h1
-              className="text-2xl sm:text-3xl md:text-6xl lg:text-7xl font-light mb-6 tracking-tight text-white drop-shadow-lg subpixel-antialiased"
-              initial={{ opacity: 0, y: 100 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
-            >
-              <motion.span
-                className="font-light"
-                initial={{ opacity: 0, y: 50 }}
+              {/* Countdown Timer */}
+              <motion.div
+                className="mb-8 flex justify-center"
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.3 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
               >
-                ELEVATED
-              </motion.span>
-              <br />
-              <motion.span
-                className="font-normal"
-                initial={{ opacity: 0, y: 50 }}
+                <DropCountdown />
+              </motion.div>
+
+              {/* Main Headline */}
+              <motion.h1
+                className="text-2xl sm:text-3xl md:text-6xl lg:text-7xl font-light mb-6 tracking-tight text-white drop-shadow-lg subpixel-antialiased"
+                style={{ textShadow: "0 2px 6px rgba(0,0,0,0.25)" }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
+                transition={{ duration: 0.8, delay: 0.7 }}
               >
-                ESSENTIALS
-              </motion.span>
-            </motion.h1>
+                <motion.span
+                  className="font-light"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.9 }}
+                >
+                  ELEVATED
+                </motion.span>
+                <br />
+                <motion.span
+                  className="font-normal"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 1.1 }}
+                >
+                  ESSENTIALS
+                </motion.span>
+              </motion.h1>
 
-            <motion.p
-              className="max-w-xl mx-auto text-lg md:text-xl lg:text-2xl font-light leading-relaxed md:leading-loose text-white drop-shadow-md mb-12"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.8 }}
-            >
-              Unapologetic expression through timeless silhouettes.
-              <br />
-              Made for those who understand that luxury lives in the details.
-            </motion.p>
+              {/* Subtitle */}
+              <motion.p
+                className="max-w-xl mx-auto text-lg md:text-xl lg:text-2xl font-light leading-relaxed md:leading-loose text-white drop-shadow-md mb-8"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.3 }}
+              >
+                Unapologetic expression through timeless silhouettes.
+                <br />
+                Made for those who understand that luxury lives in the details.
+              </motion.p>
 
-            <motion.div
-              className="flex flex-col sm:flex-row gap-6 justify-center items-center"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.2 }}
-            >
-              <button className="w-full sm:w-auto font-semibold px-8 py-4 rounded-full bg-gradient-to-r from-zinc-900 to-neutral-800 text-white hover:from-black hover:to-zinc-900 transition-all duration-300 text-sm tracking-wide hover:scale-105 hover:shadow-2xl ring-offset-2 focus:ring-2 focus:ring-white/50 active:scale-95">
-                SHOP DROP 01
-              </button>
-              <button className="w-full sm:w-auto font-semibold px-8 py-4 rounded-full bg-white/10 backdrop-blur-sm text-white border border-white/30 hover:bg-white/20 transition-all duration-300 text-sm tracking-wide hover:scale-105 hover:shadow-xl ring-offset-2 focus:ring-2 focus:ring-white/50 active:scale-95">
-                VIEW LOOKBOOK
-              </button>
+              {/* CTA Buttons */}
+              <motion.div
+                className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 1.5 }}
+              >
+                <button className="w-full sm:w-auto font-semibold px-8 py-3 min-h-[44px] rounded-full bg-gradient-to-r from-zinc-900 to-neutral-800 text-white hover:from-black hover:to-zinc-900 transition-all duration-300 text-sm tracking-wide hover:scale-105 hover:shadow-2xl ring-offset-2 focus:ring-2 focus:ring-white/50 active:scale-95">
+                  SHOP DROP 01
+                </button>
+                <button className="w-full sm:w-auto font-semibold px-8 py-3 min-h-[44px] rounded-full bg-white/10 backdrop-blur-sm text-white border border-white/30 hover:bg-white/20 transition-all duration-300 text-sm tracking-wide hover:scale-105 hover:shadow-xl ring-offset-2 focus:ring-2 focus:ring-white/50 active:scale-95">
+                  VIEW LOOKBOOK
+                </button>
+              </motion.div>
             </motion.div>
           </div>
         </div>
