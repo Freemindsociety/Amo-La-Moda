@@ -270,7 +270,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="min-h-screen bg-white text-black font-mono overflow-x-hidden antialiased">
+    <div className="antialiased min-h-screen bg-white text-black font-mono overflow-x-hidden">
       {/* Elevated Header */}
       <motion.header
         className="fixed top-0 left-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-black/5"
@@ -503,7 +503,7 @@ export default function HomePage() {
             </motion.div>
 
             <motion.h1
-              className="text-4xl md:text-6xl lg:text-7xl font-light mb-6 tracking-tight text-white drop-shadow-lg subpixel-antialiased"
+              className="text-2xl sm:text-3xl md:text-6xl lg:text-7xl font-light mb-6 tracking-tight text-white drop-shadow-lg subpixel-antialiased"
               initial={{ opacity: 0, y: 100 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94] }}
@@ -544,10 +544,10 @@ export default function HomePage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.2 }}
             >
-              <button className="font-semibold px-8 py-4 rounded-full bg-gradient-to-r from-zinc-900 to-neutral-800 text-white hover:from-black hover:to-zinc-900 transition-all duration-300 text-sm tracking-wide hover:scale-105 hover:shadow-2xl ring-offset-2 focus:ring-2 focus:ring-white/50 active:scale-95">
+              <button className="w-full sm:w-auto font-semibold px-8 py-4 rounded-full bg-gradient-to-r from-zinc-900 to-neutral-800 text-white hover:from-black hover:to-zinc-900 transition-all duration-300 text-sm tracking-wide hover:scale-105 hover:shadow-2xl ring-offset-2 focus:ring-2 focus:ring-white/50 active:scale-95">
                 SHOP DROP 01
               </button>
-              <button className="font-semibold px-8 py-4 rounded-full bg-white/10 backdrop-blur-sm text-white border border-white/30 hover:bg-white/20 transition-all duration-300 text-sm tracking-wide hover:scale-105 hover:shadow-xl ring-offset-2 focus:ring-2 focus:ring-white/50 active:scale-95">
+              <button className="w-full sm:w-auto font-semibold px-8 py-4 rounded-full bg-white/10 backdrop-blur-sm text-white border border-white/30 hover:bg-white/20 transition-all duration-300 text-sm tracking-wide hover:scale-105 hover:shadow-xl ring-offset-2 focus:ring-2 focus:ring-white/50 active:scale-95">
                 VIEW LOOKBOOK
               </button>
             </motion.div>
@@ -634,27 +634,25 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-black text-white py-20 px-6 md:px-12">
+      <footer className="border-t border-neutral-800/40 pt-10 bg-black text-white py-16 px-6 md:px-12">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-12">
             <div className="md:col-span-2">
-              <h4 className="font-medium text-base md:text-lg mb-3 tracking-wide">AMO LA MODA</h4>
-              <p className="text-lg font-light leading-relaxed mb-4 opacity-90">
-                Made for the streets. From Pine Hills to the world. Every piece tells a story of authenticity, crafted
-                for those who refuse to blend in.
-              </p>
-              <p className="font-light leading-relaxed opacity-80">
-                Made with love. Rooted in Pine Hills. Worn worldwide.
+              <h4 className="text-sm md:text-base font-medium mb-4 tracking-wide">AMO LA MODA</h4>
+              <p className="text-xs text-neutral-500 tracking-wide italic">
+                Made to order. Made to fit. Made with care.
               </p>
             </div>
             <div>
-              <h4 className="text-sm uppercase tracking-[0.2em] font-light mb-6">QUICK LINKS</h4>
-              <ul className="space-y-3 font-light">
+              <h4 className="text-xs md:text-sm uppercase tracking-[0.2em] font-light mb-4 md:mb-6 text-neutral-300">
+                QUICK LINKS
+              </h4>
+              <ul className="space-y-2 md:space-y-3 font-light">
                 {["Shop", "About", "Contact", "Size Guide", "Returns"].map((link) => (
                   <li key={link}>
                     <a
                       href="#"
-                      className="hover:text-gray-300 transition-colors duration-300 uppercase tracking-wide text-sm"
+                      className="text-xs text-neutral-400 hover:text-white transition-colors duration-300 uppercase tracking-wide"
                     >
                       {link}
                     </a>
@@ -663,13 +661,15 @@ export default function HomePage() {
               </ul>
             </div>
             <div>
-              <h4 className="text-sm uppercase tracking-[0.2em] font-light mb-6">CONNECT</h4>
-              <ul className="space-y-3 font-light">
+              <h4 className="text-xs md:text-sm uppercase tracking-[0.2em] font-light mb-4 md:mb-6 text-neutral-300">
+                CONNECT
+              </h4>
+              <ul className="space-y-2 md:space-y-3 font-light">
                 {["Instagram", "TikTok", "Newsletter"].map((link) => (
                   <li key={link}>
                     <a
                       href="#"
-                      className="hover:text-gray-300 transition-colors duration-300 uppercase tracking-wide text-sm"
+                      className="text-xs text-neutral-400 hover:text-white transition-colors duration-300 uppercase tracking-wide"
                     >
                       {link}
                     </a>
@@ -679,8 +679,8 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="border-t border-white/20 pt-8 text-center">
-            <p className="text-xs uppercase tracking-[0.3em] font-light opacity-60">
+          <div className="border-t border-neutral-800/40 pt-8 text-center">
+            <p className="text-xs uppercase tracking-[0.3em] font-light text-neutral-500">
               © 2024 AMO LA MODA. ALL RIGHTS RESERVED.
             </p>
           </div>
